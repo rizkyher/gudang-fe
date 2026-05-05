@@ -1,0 +1,194 @@
+generator client {
+  provider        = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model cache {
+  key        String @id
+  value      String
+  expiration Int
+}
+
+model cache_locks {
+  key        String @id
+  owner      String
+  expiration Int
+}
+
+model categories {
+  id         Int       @id @default(autoincrement())
+  name       String
+  icon       String?
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
+  items      items[]
+}
+
+model delivery_orders {
+  id                   Int                @id @default(autoincrement())
+  do_number            String             @unique
+  inventory_request_id Int
+  driver_name          String
+  license_plate        String
+  status               String             @default("pending")
+  notes                String?
+  created_at           DateTime?          @default(now())
+  updated_at           DateTime?          @updatedAt
+  inventory_requests   inventory_requests @relation(fields: [inventory_request_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([inventory_request_id])
+}
+
+model failed_jobs {
+  id         Int      @id @default(autoincrement())
+  uuid       String   @unique
+  connection String
+  queue      String
+  payload    String
+  exception  String
+  failed_at  DateTime @default(now())
+}
+
+model inventory_request_items {
+  id                   Int                @id @default(autoincrement())
+  inventory_request_id Int
+  item_id              Int
+  quantity             Int
+  created_at           DateTime?          @default(now())
+  updated_at           DateTime?          @updatedAt
+  inventory_requests   inventory_requests @relation(fields: [inventory_request_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  items                items              @relation(fields: [item_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([inventory_request_id])
+  @@index([item_id])
+}
+
+model inventory_requests {
+  id                      Int                       @id @default(autoincrement())
+  request_number          String                    @unique
+  user_id                 Int
+  status                  String                    @default("pending")
+  notes                   String?
+  admin_note              String?
+  created_at              DateTime?                 @default(now())
+  updated_at              DateTime?                 @updatedAt
+  delivery_orders         delivery_orders[]
+  inventory_request_items inventory_request_items[]
+  users                   users                     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([user_id])
+}
+
+model items {
+  id                      Int                       @id @default(autoincrement())
+  code                    String                    @unique
+  name                    String
+  category_id             Int
+  stock                   Int                       @default(0)
+  unit                    String
+  icon                    String?
+  description             String?
+  created_at              DateTime?                 @default(now())
+  updated_at              DateTime?                 @updatedAt
+  inventory_request_items inventory_request_items[]
+  categories              categories                @relation(fields: [category_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([category_id])
+}
+
+model job_batches {
+  id             String  @id
+  name           String
+  total_jobs     Int
+  pending_jobs   Int
+  failed_jobs    Int
+  failed_job_ids String
+  options        String?
+  cancelled_at   Int?
+  created_at     Int
+  finished_at    Int?
+}
+
+model jobs {
+  id           Int  @id @default(autoincrement())
+  queue        String
+  payload      String
+  attempts     Int
+  reserved_at  Int?
+  available_at Int
+  created_at   Int
+
+  @@index([queue])
+}
+
+model migrations {
+  id        Int    @id @default(autoincrement())
+  migration String
+  batch     Int
+}
+
+model notifications {
+  id         Int       @id @default(autoincrement())
+  user_id    Int
+  title      String
+  message    String
+  type       String    @default("info")
+  is_read    Boolean   @default(false)
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
+  users      users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([user_id])
+}
+
+model password_reset_tokens {
+  email      String    @id
+  token      String
+  created_at DateTime? @default(now())
+}
+
+model personal_access_tokens {
+  id             Int       @id @default(autoincrement())
+  tokenable_type String
+  tokenable_id   Int
+  name           String
+  token          String    @unique
+  abilities      String?
+  last_used_at   DateTime?
+  expires_at     DateTime?
+  created_at     DateTime? @default(now())
+  updated_at     DateTime? @updatedAt
+
+  @@index([expires_at])
+  @@index([tokenable_type, tokenable_id])
+}
+
+model sessions {
+  id            String  @id
+  user_id       Int?
+  ip_address    String?
+  user_agent    String?
+  payload       String
+  last_activity Int
+
+  @@index([last_activity])
+  @@index([user_id])
+}
+
+model users {
+  id                 Int                  @id @default(autoincrement())
+  name               String
+  email              String               @unique
+  email_verified_at  DateTime?
+  password           String
+  role               String               @default("user")
+  phone              String?
+  remember_token     String?
+  created_at         DateTime?            @default(now())
+  updated_at         DateTime?            @updatedAt
+  inventory_requests inventory_requests[]
+  notifications      notifications[]
+}

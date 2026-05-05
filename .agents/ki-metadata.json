@@ -1,0 +1,22 @@
+{
+  "title": "Gudang-FE: Arsitektur Fullstack SvelteKit + Cloudflare D1",
+  "description": "Knowledge Item tentang arsitektur, auth, database, dan deployment proyek gudang-fe setelah migrasi penuh dari Laravel ke SvelteKit Fullstack dengan Cloudflare D1.",
+  "created": "2026-05-05",
+  "updated": "2026-05-05",
+  "project_path": "/Users/herdians/Programmer/Rizky/job/web-gudang/gudang-fe",
+  "references": [
+    "src/hooks.server.ts",
+    "src/lib/server/prisma.ts",
+    "src/lib/server/schemas.ts",
+    "src/routes/+layout.server.ts",
+    "src/routes/admin/+layout.server.ts",
+    "src/routes/user/+layout.server.ts",
+    "prisma/schema.prisma",
+    "prisma/seed.ts",
+    "wrangler.toml",
+    ".agents/knowledge.md",
+    ".agents/rules.md",
+    ".agents/source-of-truth.md"
+  ],
+  "tags": ["sveltekit", "cloudflare", "d1", "prisma", "sqlite", "auth", "fullstack"]
+}

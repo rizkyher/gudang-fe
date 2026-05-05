@@ -12,5 +12,15 @@
   },
   "compatibility_flags": [
     "nodejs_compat"
+  ],
+  "vars": {
+    "JWT_SECRET": "kiantza27863gdg9gudvbjdbwf980-91-20**kjskjabciik;laeoiakdcm,as"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB_GUDANG", 
+      "database_name": "web-gudang-db",
+      "database_id": "11b54b1c-275e-4729-a7a8-b029075e1879"
+    }
   ]
 }

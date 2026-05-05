@@ -6,7 +6,7 @@ DELETE FROM categories;
 -- Hash: $2a$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTa
 INSERT INTO users (id, name, email, password, role) 
 VALUES 
-  ('cltzadmin0000000000000001', 'Administrator', 'admin@khwarizmi.ac.id', '$2a$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTa', 'admin'),
+  ('cltzadmin0000000000000001', 'Administrator', 'rherdians31@gmail.com', '$2a$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTa', 'admin'),
   ('cltzstaff0000000000000002', 'Staff Gudang', 'staff@khwarizmi.ac.id', '$2a$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTa', 'user');
 
 -- Insert Categories

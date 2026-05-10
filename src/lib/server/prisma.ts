@@ -15,9 +15,10 @@ let prismaClient: PrismaClient;
 export function getPrisma(env?: any) {
 	if (prismaClient) return prismaClient;
 
-	if (!dev && env && env.DB) {
+	const dbBinding = env?.DB_GUDANG || env?.DB;
+	if (!dev && dbBinding) {
 		// Production: Gunakan binding D1 asli dari Cloudflare
-		const adapter = new PrismaD1(env.DB);
+		const adapter = new PrismaD1(dbBinding);
 		prismaClient = new PrismaClient({ adapter });
 	} else {
 		// Fallback untuk local development (bun dev) -> Gunakan dev.db yang sudah di-seed
